@@ -37,6 +37,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenRootTypes {
+  Face: { // root type
+    h: number; // Int!
+    id: number; // Int!
+    w: number; // Int!
+    x: number; // Int!
+    y: number; // Int!
+  }
   Mutation: {};
   Photo: { // root type
     id: number; // Int!
@@ -55,10 +62,19 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
+  Face: { // field return type
+    h: number; // Int!
+    id: number; // Int!
+    photo: NexusGenRootTypes['Photo']; // Photo!
+    w: number; // Int!
+    x: number; // Int!
+    y: number; // Int!
+  }
   Mutation: { // field return type
     scanPhotos: NexusGenRootTypes['Photo'][]; // [Photo!]!
   }
   Photo: { // field return type
+    faces: NexusGenRootTypes['Face'][]; // [Face!]!
     id: number; // Int!
     path: string; // String!
   }
@@ -81,7 +97,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "Photo" | "Query";
+export type NexusGenObjectNames = "Face" | "Mutation" | "Photo" | "Query";
 
 export type NexusGenInputNames = never;
 

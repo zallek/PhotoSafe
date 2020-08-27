@@ -7,6 +7,15 @@
   margin: auto;
 }
 
+.imgContainer {
+  position: relative;
+}
+
 .img {
   height: fit-content;
+}
+
+.faceBorder {
+  position: absolute;
+  border: 2px solid #fff;
 }

@@ -19,6 +19,41 @@ const Photo = objectType({
   definition(t) {
     t.int("id");
     t.string("path");
+    t.list.field("faces", {
+      type: "Face",
+      resolve: (parent) => {
+        return prisma.photo
+          .findOne({
+            where: {
+              id: Number(parent.id),
+            },
+          })
+          .faces();
+      },
+    });
+  },
+});
+
+const Face = objectType({
+  name: "Face",
+  definition(t) {
+    t.int("id");
+    t.int("x");
+    t.int("y");
+    t.int("h");
+    t.int("w");
+    t.field("photo", {
+      type: "Photo",
+      resolve: (parent) => {
+        return prisma.face
+          .findOne({
+            where: {
+              id: Number(parent.id),
+            },
+          })
+          .photo();
+      },
+    });
   },
 });
 
@@ -62,7 +97,7 @@ const Mutation = objectType({
 });
 
 export const schema = makeSchema({
-  types: [Query, Mutation, Photo, GQLDate],
+  types: [Query, Mutation, Photo, Face, GQLDate],
   outputs: {
     typegen: path.join(process.cwd(), "pages", "api", "nexus-typegen.ts"),
     schema: path.join(process.cwd(), "pages", "api", "schema.graphql"),

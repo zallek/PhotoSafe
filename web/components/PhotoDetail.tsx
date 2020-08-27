@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 import { useRouter } from "next/router";
-import { useAPIQuery } from "../apollo/client";
+import { useQuery } from "@apollo/react-hooks";
 
 import styles from "./PhotoDetail.module.css";
 
@@ -9,6 +9,13 @@ const PhotoQuery = gql`
     photo(photoId: $photoId) {
       id
       path
+      faces {
+        id
+        x
+        y
+        w
+        h
+      }
     }
   }
 `;
@@ -16,7 +23,7 @@ const PhotoQuery = gql`
 function PhotoDetail() {
   const router = useRouter();
   const photoId = router.query.photoId;
-  const { data } = useAPIQuery(PhotoQuery, {
+  const { data } = useQuery(PhotoQuery, {
     variables: {
       photoId: photoId,
     },
@@ -26,7 +33,21 @@ function PhotoDetail() {
   return (
     <div className={styles.container}>
       {data && (
-        <img className={styles.img} src={`/photos/${data.photo.path}`} />
+        <div className={styles.imgContainer}>
+          <img className={styles.img} src={`/photos/${data.photo.path}`} />
+          {data.photo.faces.map((face) => (
+            <div
+              key={face.id}
+              className={styles.faceBorder}
+              style={{
+                left: face.x,
+                top: face.y,
+                width: face.w,
+                height: face.h,
+              }}
+            ></div>
+          ))}
+        </div>
       )}
     </div>
   );

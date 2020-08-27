@@ -1,6 +1,7 @@
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Button, Layout, PageHeader } from "antd";
 import gql from "graphql-tag";
-import { withApollo, useAPIQuery, useAPIMutation } from "../apollo/client";
+import { withApollo } from "../apollo/client";
 import PhotosGrid from "../components/PhotosGrid";
 import PhotoDetail from "../components/PhotoDetail";
 
@@ -25,8 +26,8 @@ const ScanPhotos = gql`
 `;
 
 function PhotoSafe() {
-  const { data, refetch } = useAPIQuery(PhotosQuery);
-  const [scanPhotos] = useAPIMutation(ScanPhotos);
+  const { data, refetch } = useQuery(PhotosQuery);
+  const [scanPhotos] = useMutation(ScanPhotos);
 
   async function scanPhotosAndRefresh() {
     await scanPhotos();

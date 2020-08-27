@@ -15,7 +15,7 @@ const PhotosGrid = ({ className, photos }: Props) => (
   <Row className={className} gutter={16}>
     {photos.map((photo) => (
       <Col key={photo.id} className={styles.photoContainer}>
-        <Link href={`/?photoId=${photo.id}`} as={`/photo/${photo.id}`}>
+        <Link href={`/?photoId=${photo.id}`}>
           <a>
             <img className={styles.photoImg} src={`/photos/${photo.path}`} />
           </a>

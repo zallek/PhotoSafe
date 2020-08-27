@@ -3,8 +3,6 @@ import Head from "next/head";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { NexusGenFieldTypes } from "../pages/api/nexus-typegen";
 
 let apolloClient = null;
 
@@ -140,9 +138,3 @@ function createIsomorphLink() {
     credentials: "same-origin",
   });
 }
-
-export const useAPIQuery = (query, opts?) =>
-  useQuery<NexusGenFieldTypes["Query"]>(query, opts);
-
-export const useAPIMutation = (query, opts?) =>
-  useMutation<NexusGenFieldTypes["Mutation"]>(query, opts);

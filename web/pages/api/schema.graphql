@@ -7,11 +7,21 @@ A date string, such as 2007-12-03, compliant with the `full-date` format outline
 """
 scalar Date
 
+type Face {
+  h: Int!
+  id: Int!
+  photo: Photo!
+  w: Int!
+  x: Int!
+  y: Int!
+}
+
 type Mutation {
   scanPhotos: [Photo!]!
 }
 
 type Photo {
+  faces: [Face!]!
   id: Int!
   path: String!
 }
