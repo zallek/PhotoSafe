@@ -1,0 +1,5 @@
+# Prisma Migrate lockfile v1
+
+20200826203327-init
+20200826223032-faces
+20200827083251-photo-unique-path
