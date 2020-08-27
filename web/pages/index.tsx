@@ -1,9 +1,10 @@
 import { Button, Layout, PageHeader } from "antd";
 import gql from "graphql-tag";
 import { withApollo, useAPIQuery, useAPIMutation } from "../apollo/client";
-import styles from "./index.module.css";
 import PhotosGrid from "../components/PhotosGrid";
-import PhotoModal from "../components/PhotoModal";
+import PhotoDetail from "../components/PhotoDetail";
+
+import styles from "./index.module.css";
 
 const PhotosQuery = gql`
   query PhotosQuery {
@@ -34,7 +35,6 @@ function PhotoSafe() {
 
   return (
     <Layout className={styles.layout}>
-      <PhotoModal />
       <Layout.Content>
         <PageHeader
           ghost={false}
@@ -45,6 +45,7 @@ function PhotoSafe() {
             </Button>,
           ]}
         />
+        <PhotoDetail />
         {data && (
           <PhotosGrid
             className={styles.photosGridContainer}
@@ -52,7 +53,7 @@ function PhotoSafe() {
           />
         )}
       </Layout.Content>
-      <Layout.Footer style={{ textAlign: "center" }}>
+      <Layout.Footer className={styles.footer}>
         PhotoSafe ©2020 Created by Nicolas Fortin
       </Layout.Footer>
     </Layout>

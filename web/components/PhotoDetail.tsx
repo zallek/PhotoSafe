@@ -1,15 +1,35 @@
+import gql from "graphql-tag";
+import { useRouter } from "next/router";
+import { useAPIQuery } from "../apollo/client";
+
 import styles from "./PhotoDetail.module.css";
 
-interface Props {
-  photo: {
-    path: string;
-  };
-}
+const PhotoQuery = gql`
+  query PhotosQuery($photoId: String!) {
+    photo(photoId: $photoId) {
+      id
+      path
+    }
+  }
+`;
 
-const PhotoDetail = ({ photo }: Props) => (
-  <div className={styles.photo}>
-    <img className={styles.img} src={`/photos/${photo.path}`} />
-  </div>
-);
+function PhotoDetail() {
+  const router = useRouter();
+  const photoId = router.query.photoId;
+  const { data } = useAPIQuery(PhotoQuery, {
+    variables: {
+      photoId: photoId,
+    },
+    skip: !router.query.photoId,
+  });
+
+  return (
+    <div className={styles.container}>
+      {data && (
+        <img className={styles.img} src={`/photos/${data.photo.path}`} />
+      )}
+    </div>
+  );
+}
 
 export default PhotoDetail;

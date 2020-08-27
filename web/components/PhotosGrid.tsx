@@ -1,6 +1,5 @@
 import { Col, Row } from "antd";
 import Link from "next/link";
-import Photo from "./PhotoImg";
 
 import styles from "./PhotosGrid.module.css";
 
@@ -18,7 +17,7 @@ const PhotosGrid = ({ className, photos }: Props) => (
       <Col key={photo.id} className={styles.photoContainer}>
         <Link href={`/?photoId=${photo.id}`} as={`/photo/${photo.id}`}>
           <a>
-            <Photo photo={photo} />
+            <img className={styles.photoImg} src={`/photos/${photo.path}`} />
           </a>
         </Link>
       </Col>
