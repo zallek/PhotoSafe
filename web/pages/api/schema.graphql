@@ -17,5 +17,6 @@ type Photo {
 }
 
 type Query {
+  photo(photoId: String!): Photo!
   photos: [Photo!]!
 }

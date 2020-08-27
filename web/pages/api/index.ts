@@ -1,4 +1,9 @@
-import { makeSchema, objectType, asNexusMethod } from "@nexus/schema";
+import {
+  makeSchema,
+  objectType,
+  asNexusMethod,
+  stringArg,
+} from "@nexus/schema";
 import { GraphQLDate } from "graphql-iso-date";
 import { PrismaClient } from "@prisma/client";
 import { ApolloServer } from "apollo-server-micro";
@@ -20,6 +25,20 @@ const Photo = objectType({
 const Query = objectType({
   name: "Query",
   definition(t) {
+    t.field("photo", {
+      type: "Photo",
+      args: {
+        photoId: stringArg({ nullable: false }),
+      },
+      resolve: (parent, args, ctx) => {
+        return prisma.photo.findOne({
+          where: {
+            id: Number(args.photoId),
+          },
+        });
+      },
+    });
+
     t.list.field("photos", {
       type: "Photo",
       resolve: (parent, args, ctx) => {

@@ -1,13 +1,12 @@
-import { Button, Col, Layout, PageHeader, Row } from "antd";
+import { Button, Layout, PageHeader } from "antd";
 import gql from "graphql-tag";
-
 import { withApollo, useAPIQuery, useAPIMutation } from "../apollo/client";
-
 import styles from "./index.module.css";
 import PhotosGrid from "../components/PhotosGrid";
+import PhotoModal from "../components/PhotoModal";
 
-const PhotoQuery = gql`
-  query PhotoQuery {
+const PhotosQuery = gql`
+  query PhotosQuery {
     photos {
       id
       path
@@ -25,7 +24,7 @@ const ScanPhotos = gql`
 `;
 
 function PhotoSafe() {
-  const { data, refetch } = useAPIQuery(PhotoQuery);
+  const { data, refetch } = useAPIQuery(PhotosQuery);
   const [scanPhotos] = useAPIMutation(ScanPhotos);
 
   async function scanPhotosAndRefresh() {
@@ -35,6 +34,7 @@ function PhotoSafe() {
 
   return (
     <Layout className={styles.layout}>
+      <PhotoModal />
       <Layout.Content>
         <PageHeader
           ghost={false}

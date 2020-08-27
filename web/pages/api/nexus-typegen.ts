@@ -63,11 +63,17 @@ export interface NexusGenFieldTypes {
     path: string; // String!
   }
   Query: { // field return type
+    photo: NexusGenRootTypes['Photo']; // Photo!
     photos: NexusGenRootTypes['Photo'][]; // [Photo!]!
   }
 }
 
 export interface NexusGenArgTypes {
+  Query: {
+    photo: { // args
+      photoId: string; // String!
+    }
+  }
 }
 
 export interface NexusGenAbstractResolveReturnTypes {
