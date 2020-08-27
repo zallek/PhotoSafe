@@ -36,7 +36,7 @@ const Mutation = objectType({
       type: "Photo",
       resolve: async (parent, args, ctx) => {
         await scanPhotos();
-        return prisma.photo.findMany();
+        return [];
       },
     });
   },

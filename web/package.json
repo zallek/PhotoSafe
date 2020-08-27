@@ -18,6 +18,7 @@
     "@apollo/react-ssr": "4.0.0",
     "@nexus/schema": "0.15.0",
     "@prisma/client": "2.5.1",
+    "antd": "^4.6.1",
     "apollo-boost": "0.4.9",
     "apollo-link-http": "1.5.17",
     "apollo-link-schema": "1.2.5",

@@ -1,7 +1,10 @@
-import Layout from "../components/Layout";
-import { withApollo, useAPIQuery } from "../apollo/client";
+import { Button, Col, Layout, PageHeader, Row } from "antd";
 import gql from "graphql-tag";
-import { Photo } from "../components/Photo";
+
+import { withApollo, useAPIQuery, useAPIMutation } from "../apollo/client";
+
+import styles from "./index.module.css";
+import PhotosGrid from "../components/PhotosGrid";
 
 const PhotoQuery = gql`
   query PhotoQuery {
@@ -12,37 +15,48 @@ const PhotoQuery = gql`
   }
 `;
 
-const KeepSafe = () => {
-  const { loading, error, data } = useAPIQuery(PhotoQuery);
+const ScanPhotos = gql`
+  mutation ScanPhotos {
+    scanPhotos {
+      id
+      path
+    }
+  }
+`;
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+function PhotoSafe() {
+  const { data, refetch } = useAPIQuery(PhotoQuery);
+  const [scanPhotos] = useAPIMutation(ScanPhotos);
+
+  async function scanPhotosAndRefresh() {
+    await scanPhotos();
+    await refetch();
   }
 
   return (
-    <Layout>
-      <div className="page">
-        <h1>My photos</h1>
-        <main>
-          {data.photos.map((photo) => (
-            <div key={photo.id} className="photo">
-              <Photo photo={photo} />
-            </div>
-          ))}
-        </main>
-      </div>
-      <style jsx>{`
-        .photo {
-          background: white;
-          transition: box-shadow 0.1s ease-in;
-        }
-
-        .photo + .photo {
-          margin-top: 2rem;
-        }
-      `}</style>
+    <Layout className={styles.layout}>
+      <Layout.Content>
+        <PageHeader
+          ghost={false}
+          title="My photos"
+          extra={[
+            <Button key="1" onClick={scanPhotosAndRefresh}>
+              Scan photos
+            </Button>,
+          ]}
+        />
+        {data && (
+          <PhotosGrid
+            className={styles.photosGridContainer}
+            photos={data.photos}
+          />
+        )}
+      </Layout.Content>
+      <Layout.Footer style={{ textAlign: "center" }}>
+        PhotoSafe ©2020 Created by Nicolas Fortin
+      </Layout.Footer>
     </Layout>
   );
-};
+}
 
-export default withApollo(KeepSafe);
+export default withApollo(PhotoSafe);
