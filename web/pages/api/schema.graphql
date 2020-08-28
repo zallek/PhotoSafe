@@ -41,5 +41,5 @@ type Query {
   identities: [Identity!]!
   identity(identityId: Int!): Identity!
   photo(photoId: Int!): Photo!
-  photos: [Photo!]!
+  photos(identityId: Int): [Photo!]!
 }

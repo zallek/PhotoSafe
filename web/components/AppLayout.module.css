@@ -1,0 +1,14 @@
+.layout {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.menu {
+  background: #fff;
+  height: 100%;
+}
+
+.footer {
+  background: #fff;
+  text-align: center;
+}

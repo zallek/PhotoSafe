@@ -102,7 +102,7 @@ const Query = objectType({
       resolve: (parent, args, ctx) => {
         return prisma.photo.findOne({
           where: {
-            id: Number(args.photoId),
+            id: args.photoId,
           },
         });
       },
@@ -110,8 +110,25 @@ const Query = objectType({
 
     t.list.field("photos", {
       type: "Photo",
+      args: {
+        identityId: intArg(),
+      },
       resolve: (parent, args, ctx) => {
-        return prisma.photo.findMany();
+        var wherePayload = {};
+        if (args.identityId) {
+          wherePayload = {
+            where: {
+              faces: {
+                some: {
+                  identityId: args.identityId,
+                },
+              },
+            },
+          };
+        }
+        return prisma.photo.findMany({
+          ...wherePayload,
+        });
       },
     });
 
@@ -123,7 +140,7 @@ const Query = objectType({
       resolve: (parent, args, ctx) => {
         return prisma.identity.findOne({
           where: {
-            id: Number(args.identityId),
+            id: args.identityId,
           },
         });
       },

@@ -128,6 +128,9 @@ export interface NexusGenArgTypes {
     photo: { // args
       photoId: number; // Int!
     }
+    photos: { // args
+      identityId?: number | null; // Int
+    }
   }
 }
 
