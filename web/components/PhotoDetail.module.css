@@ -12,8 +12,3 @@
   pointer-events: none;
   user-select: none;
 }
-
-.faceBorder {
-  position: absolute;
-  border: 2px solid #fff;
-}

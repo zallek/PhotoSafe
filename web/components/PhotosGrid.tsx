@@ -19,7 +19,6 @@ interface Props {
 }
 
 const PhotosGrid = ({ className, photos }: Props) => {
-  debugger;
   const photosByIdentity = photos.reduce(
     (acc, photo) => {
       const identities = Array.from(
@@ -47,7 +46,7 @@ const PhotosGrid = ({ className, photos }: Props) => {
         .sort(([nameA], [name2]) => nameA.localeCompare(name2))
         .map(([name, photos]) => (
           <div key={name}>
-            <Divider>{name}</Divider>
+            <Divider orientation="left">{name}</Divider>
             <Row className={className} gutter={16}>
               {photos.map((photo) => (
                 <Col key={photo.id} className={styles.photoContainer}>

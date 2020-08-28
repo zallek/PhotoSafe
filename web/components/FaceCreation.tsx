@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import styles from "./FaceIdentitication.module.css";
+import styles from "./FaceCreation.module.css";
 
 interface TmpFace {
   x: number;
@@ -11,10 +11,9 @@ interface TmpFace {
 
 interface Props {
   onSelect: (f: TmpFace) => void;
-  children: React.ReactNode;
 }
 
-function FaceIdentification({ onSelect, children }: Props) {
+function FaceCreation({ onSelect }: Props) {
   const [tmpFace, setTmpFace] = useState<TmpFace>(null);
 
   return (
@@ -25,8 +24,8 @@ function FaceIdentification({ onSelect, children }: Props) {
           ? function (event) {
               event.stopPropagation();
               setTmpFace({
-                x: event.pageX - event.currentTarget.offsetLeft,
-                y: event.pageY - event.currentTarget.offsetTop,
+                x: event.pageX - event.currentTarget.parentElement.offsetLeft,
+                y: event.pageY - event.currentTarget.parentElement.offsetTop,
                 h: 0,
                 w: 0,
               });
@@ -39,8 +38,14 @@ function FaceIdentification({ onSelect, children }: Props) {
               event.stopPropagation();
               setTmpFace({
                 ...tmpFace,
-                w: event.pageX - event.currentTarget.offsetLeft - tmpFace.x,
-                h: event.pageY - event.currentTarget.offsetTop - tmpFace.y,
+                w:
+                  event.pageX -
+                  event.currentTarget.parentElement.offsetLeft -
+                  tmpFace.x,
+                h:
+                  event.pageY -
+                  event.currentTarget.parentElement.offsetTop -
+                  tmpFace.y,
               });
             }
           : null
@@ -51,22 +56,19 @@ function FaceIdentification({ onSelect, children }: Props) {
         setTmpFace(null);
       }}
     >
-      <>
-        {children}
-        {tmpFace && (
-          <div
-            className={styles.tmpFaceBorder}
-            style={{
-              left: tmpFace.x,
-              top: tmpFace.y,
-              width: tmpFace.w,
-              height: tmpFace.h,
-            }}
-          />
-        )}
-      </>
+      {tmpFace && (
+        <div
+          className={styles.tmpFaceBorder}
+          style={{
+            left: tmpFace.x,
+            top: tmpFace.y,
+            width: tmpFace.w,
+            height: tmpFace.h,
+          }}
+        />
+      )}
     </div>
   );
 }
 
-export default FaceIdentification;
+export default FaceCreation;
