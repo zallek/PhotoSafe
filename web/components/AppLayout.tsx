@@ -39,7 +39,7 @@ function AppLayout({ children }: Props) {
               <a>All photos</a>
             </Link>
           </Menu.Item>
-          <Menu.ItemGroup key="familly" title="Family">
+          <Menu.ItemGroup key="familly" title="People">
             {dataIdentities &&
               dataIdentities.identities.map((identity) => (
                 <Menu.Item key={`f${identity.id}`}>

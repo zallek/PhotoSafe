@@ -4,7 +4,7 @@ import PhotosGrid from "./PhotosGrid";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useRouter } from "next/router";
-import { PageHeader, Button, Layout } from "antd";
+import { PageHeader, Button, Layout, Divider } from "antd";
 import styles from "./MyPhotos.module.css";
 
 const PhotosQuery = gql`
@@ -96,6 +96,14 @@ const IdentityFaceMutation = gql`
   }
 `;
 
+const DeleteIdentityMutation = gql`
+  mutation DeleteIdentityMutation($identityId: Int!) {
+    deleteIdentity(identityId: $identityId) {
+      id
+    }
+  }
+`;
+
 interface Props {
   identityId?: number;
 }
@@ -108,13 +116,18 @@ function MyPhotos({ identityId }: Props) {
     variables: {
       identityId: identityId,
     },
+    fetchPolicy: "cache-and-network", // To force update when switching from a page to another
   });
+
   if (
     dataPhotos &&
     dataPhotos.photos.length > 0 &&
     (!photoId || !dataPhotos.photos.find((p) => p.id === photoId))
   ) {
     photoId = dataPhotos.photos[0].id;
+  }
+  if (!dataPhotos || !dataPhotos.photos.length) {
+    photoId = null;
   }
 
   const { data: dataPhoto, refetch: refetchPhoto } = useQuery(PhotoQuery, {
@@ -131,12 +144,13 @@ function MyPhotos({ identityId }: Props) {
   const [deleteFace] = useMutation(DeleteFaceMutation);
   const [createIdentity] = useMutation(CreateIdentityMutation);
   const [identifyFace] = useMutation(IdentityFaceMutation);
+  const [deleteIdentity] = useMutation(DeleteIdentityMutation);
 
   const identityName = identityId
     ? dataIdentities?.identities.find((i) => i.id === identityId)?.name
     : null;
 
-  async function scanPhotosAndRefresh() {
+  async function onScanPhotos() {
     await scanPhotos();
     await refetchPhotos();
   }
@@ -153,6 +167,7 @@ function MyPhotos({ identityId }: Props) {
       variables: { faceId },
     });
     await refetchPhoto();
+    await refetchPhotos();
   }
 
   async function onIdentityFace(faceId, identityId, identityName) {
@@ -167,7 +182,14 @@ function MyPhotos({ identityId }: Props) {
       variables: { faceId, identityId },
     });
     await refetchPhoto();
+    await refetchPhotos();
     await refetchIdentities();
+  }
+
+  async function onDeleteIdentity() {
+    await deleteIdentity({ variables: { identityId } });
+    await refetchIdentities();
+    router.replace("/");
   }
 
   return (
@@ -177,19 +199,25 @@ function MyPhotos({ identityId }: Props) {
         title="My photos"
         subTitle={identityName}
         extra={[
-          <Button key="1" onClick={scanPhotosAndRefresh}>
+          identityId ? (
+            <Button key="dp" onClick={onDeleteIdentity}>
+              Delete person
+            </Button>
+          ) : null,
+          <Button key="sp" onClick={onScanPhotos}>
             Scan photos
           </Button>,
         ]}
       />
       <Layout.Content>
         <PhotoDetail
-          photo={dataPhoto ? dataPhoto.photo : null}
-          identities={dataIdentities ? dataIdentities.identities : null}
+          photo={dataPhoto?.photo}
+          identities={dataIdentities?.identities}
           onCreateFace={onCreateFace}
           onDeleteFace={onDeleteFace}
           onIdentityFace={onIdentityFace}
         />
+        <Divider />
         {dataPhotos && (
           <PhotosGrid
             className={styles.photosGridContainer}

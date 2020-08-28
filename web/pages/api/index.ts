@@ -244,6 +244,20 @@ const Mutation = objectType({
       },
     });
 
+    t.field("deleteIdentity", {
+      args: {
+        identityId: intArg({ nullable: false }),
+      },
+      type: "Identity",
+      resolve: async (parent, args, ctx) => {
+        return prisma.identity.delete({
+          where: {
+            id: args.identityId,
+          },
+        });
+      },
+    });
+
     t.list.field("scanPhotos", {
       type: "Photo",
       resolve: async (parent, args, ctx) => {

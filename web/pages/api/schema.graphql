@@ -27,6 +27,7 @@ type Mutation {
   createFace(h: Int!, photoId: Int!, w: Int!, x: Int!, y: Int!): Face!
   createIdentity(faceId: Int, name: String!): Identity!
   deleteFace(faceId: Int!): Face!
+  deleteIdentity(identityId: Int!): Identity!
   identifyFace(faceId: Int!, identityId: Int!): Face!
   scanPhotos: [Photo!]!
 }
