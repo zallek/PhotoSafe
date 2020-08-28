@@ -44,6 +44,10 @@ export interface NexusGenRootTypes {
     x: number; // Int!
     y: number; // Int!
   }
+  Identity: { // root type
+    id: number; // Int!
+    name: string; // String!
+  }
   Mutation: {};
   Photo: { // root type
     id: number; // Int!
@@ -65,12 +69,22 @@ export interface NexusGenFieldTypes {
   Face: { // field return type
     h: number; // Int!
     id: number; // Int!
+    identity: NexusGenRootTypes['Identity'] | null; // Identity
     photo: NexusGenRootTypes['Photo']; // Photo!
     w: number; // Int!
     x: number; // Int!
     y: number; // Int!
   }
+  Identity: { // field return type
+    faces: NexusGenRootTypes['Face'][]; // [Face!]!
+    id: number; // Int!
+    name: string; // String!
+  }
   Mutation: { // field return type
+    createFace: NexusGenRootTypes['Face']; // Face!
+    createIdentity: NexusGenRootTypes['Identity']; // Identity!
+    deleteFace: NexusGenRootTypes['Face']; // Face!
+    identifyFace: NexusGenRootTypes['Face']; // Face!
     scanPhotos: NexusGenRootTypes['Photo'][]; // [Photo!]!
   }
   Photo: { // field return type
@@ -79,15 +93,40 @@ export interface NexusGenFieldTypes {
     path: string; // String!
   }
   Query: { // field return type
+    identities: NexusGenRootTypes['Identity'][]; // [Identity!]!
+    identity: NexusGenRootTypes['Identity']; // Identity!
     photo: NexusGenRootTypes['Photo']; // Photo!
     photos: NexusGenRootTypes['Photo'][]; // [Photo!]!
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createFace: { // args
+      h: number; // Int!
+      photoId: number; // Int!
+      w: number; // Int!
+      x: number; // Int!
+      y: number; // Int!
+    }
+    createIdentity: { // args
+      faceId?: number | null; // Int
+      name: string; // String!
+    }
+    deleteFace: { // args
+      faceId: number; // Int!
+    }
+    identifyFace: { // args
+      faceId: number; // Int!
+      identityId: number; // Int!
+    }
+  }
   Query: {
+    identity: { // args
+      identityId: number; // Int!
+    }
     photo: { // args
-      photoId: string; // String!
+      photoId: number; // Int!
     }
   }
 }
@@ -97,7 +136,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Face" | "Mutation" | "Photo" | "Query";
+export type NexusGenObjectNames = "Face" | "Identity" | "Mutation" | "Photo" | "Query";
 
 export type NexusGenInputNames = never;
 

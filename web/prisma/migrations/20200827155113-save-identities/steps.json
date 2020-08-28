@@ -1,0 +1,264 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "Identity"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Identity",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Identity",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Identity",
+      "field": "faces",
+      "type": "Face",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "faces"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "faces"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"Faces\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Identity",
+      "field": "suggestedFaces",
+      "type": "Face",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "suggestedFaces"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Identity",
+          "field": "suggestedFaces"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"SuggestedFaces\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Face",
+      "field": "identity",
+      "type": "Identity",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "identity"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "identity"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"Faces\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "identity"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[identityId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "identity"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Face",
+      "field": "identityId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Face",
+      "field": "suggestedIdentity",
+      "type": "Identity",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "suggestedIdentity"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "suggestedIdentity"
+        },
+        "directive": "relation"
+      },
+      "argument": "",
+      "value": "\"SuggestedFaces\""
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "suggestedIdentity"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[suggestedIdentityId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Face",
+          "field": "suggestedIdentity"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Face",
+      "field": "suggestedIdentityId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Face",
+      "field": "suggestedIdentityyConfidence",
+      "type": "Float",
+      "arity": "Optional"
+    }
+  ]
+}

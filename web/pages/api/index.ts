@@ -3,6 +3,7 @@ import {
   objectType,
   asNexusMethod,
   stringArg,
+  intArg,
 } from "@nexus/schema";
 import { GraphQLDate } from "graphql-iso-date";
 import { PrismaClient } from "@prisma/client";
@@ -25,7 +26,7 @@ const Photo = objectType({
         return prisma.photo
           .findOne({
             where: {
-              id: Number(parent.id),
+              id: parent.id,
             },
           })
           .faces();
@@ -48,10 +49,43 @@ const Face = objectType({
         return prisma.face
           .findOne({
             where: {
-              id: Number(parent.id),
+              id: parent.id,
             },
           })
           .photo();
+      },
+    });
+    t.field("identity", {
+      type: "Identity",
+      nullable: true,
+      resolve: (parent) => {
+        return prisma.face
+          .findOne({
+            where: {
+              id: parent.id,
+            },
+          })
+          .identity();
+      },
+    });
+  },
+});
+
+const Identity = objectType({
+  name: "Identity",
+  definition(t) {
+    t.int("id");
+    t.string("name");
+    t.list.field("faces", {
+      type: "Face",
+      resolve: (parent) => {
+        return prisma.identity
+          .findOne({
+            where: {
+              id: parent.id,
+            },
+          })
+          .faces();
       },
     });
   },
@@ -63,7 +97,7 @@ const Query = objectType({
     t.field("photo", {
       type: "Photo",
       args: {
-        photoId: stringArg({ nullable: false }),
+        photoId: intArg({ nullable: false }),
       },
       resolve: (parent, args, ctx) => {
         return prisma.photo.findOne({
@@ -80,12 +114,119 @@ const Query = objectType({
         return prisma.photo.findMany();
       },
     });
+
+    t.field("identity", {
+      type: "Identity",
+      args: {
+        identityId: intArg({ nullable: false }),
+      },
+      resolve: (parent, args, ctx) => {
+        return prisma.identity.findOne({
+          where: {
+            id: Number(args.identityId),
+          },
+        });
+      },
+    });
+
+    t.list.field("identities", {
+      type: "Identity",
+      resolve: (parent, args, ctx) => {
+        return prisma.identity.findMany();
+      },
+    });
   },
 });
 
 const Mutation = objectType({
   name: "Mutation",
   definition(t) {
+    t.field("createFace", {
+      args: {
+        x: intArg({ nullable: false }),
+        y: intArg({ nullable: false }),
+        w: intArg({ nullable: false }),
+        h: intArg({ nullable: false }),
+        photoId: intArg({ nullable: false }),
+      },
+      type: "Face",
+      resolve: async (parent, args, ctx) => {
+        return prisma.face.create({
+          data: {
+            x: args.x,
+            y: args.y,
+            w: args.w,
+            h: args.h,
+            photo: {
+              connect: {
+                id: args.photoId,
+              },
+            },
+          },
+        });
+      },
+    });
+
+    t.field("deleteFace", {
+      args: {
+        faceId: intArg({ nullable: false }),
+      },
+      type: "Face",
+      resolve: async (parent, args, ctx) => {
+        return prisma.face.delete({
+          where: {
+            id: args.faceId,
+          },
+        });
+      },
+    });
+
+    t.field("createIdentity", {
+      args: {
+        name: stringArg({ nullable: false }),
+        faceId: intArg(),
+      },
+      type: "Identity",
+      resolve: async (parent, args, ctx) => {
+        return prisma.identity.create({
+          data: {
+            name: args.name,
+            faces: args.faceId
+              ? {
+                  connect: [
+                    {
+                      id: args.faceId,
+                    },
+                  ],
+                }
+              : undefined,
+          },
+        });
+      },
+    });
+
+    t.field("identifyFace", {
+      args: {
+        faceId: intArg({ nullable: false }),
+        identityId: intArg({ nullable: false }),
+      },
+      type: "Face",
+      resolve: (parent, args, ctx) => {
+        return prisma.face.update({
+          where: {
+            id: args.faceId,
+          },
+          data: {
+            identity: {
+              connect: {
+                id: args.identityId,
+              },
+            },
+          },
+        });
+      },
+    });
+
     t.list.field("scanPhotos", {
       type: "Photo",
       resolve: async (parent, args, ctx) => {
@@ -97,7 +238,7 @@ const Mutation = objectType({
 });
 
 export const schema = makeSchema({
-  types: [Query, Mutation, Photo, Face, GQLDate],
+  types: [Query, Mutation, Photo, Identity, Face, GQLDate],
   outputs: {
     typegen: path.join(process.cwd(), "pages", "api", "nexus-typegen.ts"),
     schema: path.join(process.cwd(), "pages", "api", "schema.graphql"),

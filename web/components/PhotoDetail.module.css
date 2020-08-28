@@ -7,12 +7,10 @@
   margin: auto;
 }
 
-.imgContainer {
-  position: relative;
-}
-
 .img {
   height: fit-content;
+  pointer-events: none;
+  user-select: none;
 }
 
 .faceBorder {

@@ -12,12 +12,17 @@ const PhotosQuery = gql`
     photos {
       id
       path
+      faces {
+        identity {
+          name
+        }
+      }
     }
   }
 `;
 
-const ScanPhotos = gql`
-  mutation ScanPhotos {
+const ScanPhotosMutation = gql`
+  mutation ScanPhotosMutation {
     scanPhotos {
       id
       path
@@ -27,7 +32,7 @@ const ScanPhotos = gql`
 
 function PhotoSafe() {
   const { data, refetch } = useQuery(PhotosQuery);
-  const [scanPhotos] = useMutation(ScanPhotos);
+  const [scanPhotos] = useMutation(ScanPhotosMutation);
 
   async function scanPhotosAndRefresh() {
     await scanPhotos();

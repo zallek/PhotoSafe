@@ -14,11 +14,23 @@ model Photo {
 }
 
 model Face {
-  id      Int   @default(autoincrement()) @id
-  x       Int
-  y       Int
-  w       Int
-  h       Int
-  photo   Photo @relation(fields: [photoId], references: [id])
-  photoId Int
+  id                          Int       @default(autoincrement()) @id
+  x                           Int
+  y                           Int
+  w                           Int
+  h                           Int
+  identity                    Identity? @relation("Faces", fields: [identityId], references: [id])
+  identityId                  Int?
+  suggestedIdentity           Identity? @relation("SuggestedFaces", fields: [suggestedIdentityId], references: [id])
+  suggestedIdentityId         Int?
+  suggestedIdentityConfidence Float?
+  photo                       Photo     @relation(fields: [photoId], references: [id])
+  photoId                     Int
+}
+
+model Identity {
+  id             Int    @default(autoincrement()) @id
+  name           String
+  faces          Face[] @relation("Faces")
+  suggestedFaces Face[] @relation("SuggestedFaces")
 }
