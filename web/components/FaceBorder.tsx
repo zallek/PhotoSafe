@@ -1,8 +1,8 @@
 import { EditFilled, DeleteFilled } from "@ant-design/icons";
-import styles from "./Face.module.css";
+import styles from "./FaceBorder.module.css";
 import { Tooltip, Button } from "antd";
 
-interface FaceM {
+interface Face {
   x: number;
   y: number;
   h: number;
@@ -13,12 +13,12 @@ interface FaceM {
 }
 
 interface Props {
-  face: FaceM;
+  face: Face;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-const Face = ({ face, onEdit, onDelete }: Props) => {
+const FaceBorder = ({ face, onEdit, onDelete }: Props) => {
   return (
     <>
       <Tooltip
@@ -56,4 +56,4 @@ const Face = ({ face, onEdit, onDelete }: Props) => {
   );
 };
 
-export default Face;
+export default FaceBorder;

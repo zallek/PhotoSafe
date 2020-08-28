@@ -13,7 +13,7 @@ interface Props {
   onSelect: (f: TmpFace) => void;
 }
 
-function FaceCreation({ onSelect }: Props) {
+const FaceCreation = ({ onSelect }: Props) => {
   const [tmpFace, setTmpFace] = useState<TmpFace>(null);
 
   return (
@@ -69,6 +69,6 @@ function FaceCreation({ onSelect }: Props) {
       )}
     </div>
   );
-}
+};
 
 export default FaceCreation;
