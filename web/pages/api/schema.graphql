@@ -38,6 +38,7 @@ type Photo {
   faces: [Face!]!
   id: Int!
   path: String!
+  url: String!
 }
 
 type Query {

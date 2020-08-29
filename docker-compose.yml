@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  web:
+    build: ./web
+    command: npm run dev
+    environment:
+      - DATABASE_URL=postgresql://web:password@postgres:5432/photosafe?schema=public
+      - IMAGES_HOST=http://localhost:3001/photos
+      - IMAGES_FOLDER=/usr/photos
+    stdin_open: true
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web:/usr/src/app:cached
+      - ./photos:/usr/photos:cached
+    depends_on:
+      - images
+      - postgres
+
+  images:
+    image: nginx
+    volumes:
+      - ./photos:/usr/share/nginx/html/photos:cached
+    ports:
+      - 3001:80
+
+  postgres:
+    image: postgres:11
+    environment:
+      - POSTGRES_USER=web
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=photosafe
+    ports:
+      - 5432:5432

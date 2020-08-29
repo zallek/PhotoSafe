@@ -4,7 +4,7 @@ import { PrismaClient, Photo } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const basePath = path.resolve("public/photos");
+const basePath = path.resolve(process.env.IMAGES_FOLDER);
 const photoExtension = ".jpg";
 
 export async function scanPhotos(): Promise<void> {

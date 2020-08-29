@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 interface Photo {
   id: number;
-  path: string;
+  url: string;
   faces: {
     identity?: {
       name: string;
@@ -40,7 +40,7 @@ const PhotosGrid = ({ className, photos, selectedPhotoId }: Props) => {
             )}?photo=${photo.id}`}
           >
             <a>
-              <img className={styles.photoImg} src={`/photos/${photo.path}`} />
+              <img className={styles.photoImg} src={photo.url} />
             </a>
           </Link>
         </Col>

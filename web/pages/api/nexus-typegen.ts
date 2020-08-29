@@ -92,6 +92,7 @@ export interface NexusGenFieldTypes {
     faces: NexusGenRootTypes['Face'][]; // [Face!]!
     id: number; // Int!
     path: string; // String!
+    url: string; // String!
   }
   Query: { // field return type
     identities: NexusGenRootTypes['Identity'][]; // [Identity!]!

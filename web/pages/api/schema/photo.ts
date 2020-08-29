@@ -9,6 +9,11 @@ export const Photo = objectType({
   definition(t) {
     t.int("id");
     t.string("path");
+    t.string("url", {
+      resolve: (parent) => {
+        return `${process.env.IMAGES_HOST}/${parent.path}`;
+      },
+    });
     t.list.field("faces", {
       type: "Face",
       resolve: (parent) => {

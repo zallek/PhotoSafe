@@ -19,7 +19,7 @@ interface Face {
 interface Props {
   photo?: {
     id: number;
-    path: string;
+    url: string;
     faces: Face[];
   };
   identities?: {
@@ -54,7 +54,7 @@ const PhotoDetail = ({
     <div className={styles.container}>
       {photo && (
         <FaceCanvas>
-          <img className={styles.img} src={`/photos/${photo.path}`} />
+          <img className={styles.img} src={photo.url} />
           <FaceCreation
             onSelect={(face) => {
               onCreateFace({

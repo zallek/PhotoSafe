@@ -11,7 +11,7 @@ const PhotosQuery = gql`
   query PhotosQuery($identityId: Int) {
     photos(identityId: $identityId) {
       id
-      path
+      url
       faces {
         identity {
           name
@@ -25,7 +25,7 @@ const PhotoQuery = gql`
   query PhotoQuery($photoId: Int!) {
     photo(photoId: $photoId) {
       id
-      path
+      url
       faces {
         id
         x
@@ -51,10 +51,7 @@ const IdentitiesQuery = gql`
 
 const ScanPhotosMutation = gql`
   mutation ScanPhotosMutation {
-    scanPhotos {
-      id
-      path
-    }
+    scanPhotos
   }
 `;
 
