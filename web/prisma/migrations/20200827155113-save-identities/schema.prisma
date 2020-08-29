@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url = "***"
+  url      = "***"
 }
 
 model Photo {
@@ -21,16 +21,16 @@ model Identity {
 }
 
 model Face {
-  id                           Int       @default(autoincrement()) @id
-  x                            Int
-  y                            Int
-  w                            Int
-  h                            Int
-  identity                     Identity? @relation("Faces", fields: [identityId], references: [id])
-  identityId                   Int?
-  suggestedIdentity            Identity? @relation("SuggestedFaces", fields: [suggestedIdentityId], references: [id])
-  suggestedIdentityId          Int?
-  suggestedIdentityyConfidence Float?
-  photo                        Photo     @relation(fields: [photoId], references: [id])
-  photoId                      Int
+  id                          Int       @default(autoincrement()) @id
+  x                           Int
+  y                           Int
+  w                           Int
+  h                           Int
+  identity                    Identity? @relation("Faces", fields: [identityId], references: [id])
+  identityId                  Int?
+  suggestedIdentity           Identity? @relation("SuggestedFaces", fields: [suggestedIdentityId], references: [id])
+  suggestedIdentityId         Int?
+  suggestedIdentityConfidence Float?
+  photo                       Photo     @relation(fields: [photoId], references: [id])
+  photoId                     Int
 }

@@ -256,7 +256,7 @@
     {
       "tag": "CreateField",
       "model": "Face",
-      "field": "suggestedIdentityyConfidence",
+      "field": "suggestedIdentityConfidence",
       "type": "Float",
       "arity": "Optional"
     }

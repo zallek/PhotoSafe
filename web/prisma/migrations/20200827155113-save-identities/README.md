@@ -8,7 +8,7 @@ You can check out the [state of the schema](./schema.prisma) after the migration
 ```sql
 ALTER TABLE "Face" ADD COLUMN     "identityId" INTEGER,
 ADD COLUMN     "suggestedIdentityId" INTEGER,
-ADD COLUMN     "suggestedIdentityyConfidence" REAL
+ADD COLUMN     "suggestedIdentityConfidence" REAL
 
 CREATE TABLE "Identity" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -64,5 +64,3 @@ migration 20200827145329-photo-faces..20200827155113-save-identities
 +  photoId                      Int
  }
 ```
-
-

@@ -86,7 +86,7 @@ export interface NexusGenFieldTypes {
     deleteFace: NexusGenRootTypes['Face']; // Face!
     deleteIdentity: NexusGenRootTypes['Identity']; // Identity!
     identifyFace: NexusGenRootTypes['Face']; // Face!
-    scanPhotos: NexusGenRootTypes['Photo'][]; // [Photo!]!
+    scanPhotos: boolean; // Boolean!
   }
   Photo: { // field return type
     faces: NexusGenRootTypes['Face'][]; // [Face!]!
