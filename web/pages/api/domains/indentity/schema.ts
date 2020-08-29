@@ -6,6 +6,7 @@ import {
   mutationField,
 } from "@nexus/schema";
 import { PrismaClient } from "@prisma/client";
+import { createIdentity, deleteIdentity } from "./service";
 
 const prisma = new PrismaClient();
 
@@ -29,7 +30,7 @@ export const Identity = objectType({
   },
 });
 
-export const identity = queryField("identity", {
+export const identityQuery = queryField("identity", {
   type: "Identity",
   args: {
     identityId: intArg({ nullable: false }),
@@ -43,7 +44,7 @@ export const identity = queryField("identity", {
   },
 });
 
-export const identities = queryField("identities", {
+export const identitiesQuery = queryField("identities", {
   type: "Identity",
   list: true,
   resolve: (parent, args, ctx) => {
@@ -51,40 +52,24 @@ export const identities = queryField("identities", {
   },
 });
 
-export const createIdentity = mutationField("createIdentity", {
+export const createIdentityMutation = mutationField("createIdentity", {
   args: {
     name: stringArg({ nullable: false }),
-    faceId: intArg(),
   },
   type: "Identity",
   resolve: async (parent, args, ctx) => {
-    return prisma.identity.create({
-      data: {
-        name: args.name,
-        faces: args.faceId
-          ? {
-              connect: [
-                {
-                  id: args.faceId,
-                },
-              ],
-            }
-          : undefined,
-      },
+    return createIdentity({
+      name: args.name,
     });
   },
 });
 
-export const deleteIdentity = mutationField("deleteIdentity", {
+export const deleteIdentityMutation = mutationField("deleteIdentity", {
   args: {
     identityId: intArg({ nullable: false }),
   },
   type: "Identity",
   resolve: async (parent, args, ctx) => {
-    return prisma.identity.delete({
-      where: {
-        id: args.identityId,
-      },
-    });
+    return deleteIdentity(args.identityId);
   },
 });

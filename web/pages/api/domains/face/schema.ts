@@ -1,5 +1,6 @@
 import { objectType, intArg, mutationField } from "@nexus/schema";
 import { PrismaClient } from "@prisma/client";
+import { createFace, identifyFace, deleteFace } from "./service";
 
 const prisma = new PrismaClient();
 
@@ -39,7 +40,7 @@ export const Face = objectType({
   },
 });
 
-export const createFace = mutationField("createFace", {
+export const createFaceMutation = mutationField("createFace", {
   args: {
     x: intArg({ nullable: false }),
     y: intArg({ nullable: false }),
@@ -49,54 +50,36 @@ export const createFace = mutationField("createFace", {
   },
   type: "Face",
   resolve: async (parent, args, ctx) => {
-    return prisma.face.create({
-      data: {
-        x: args.x,
-        y: args.y,
-        w: args.w,
-        h: args.h,
-        photo: {
-          connect: {
-            id: args.photoId,
-          },
-        },
-      },
+    return createFace({
+      x: args.x,
+      y: args.y,
+      w: args.w,
+      h: args.h,
+      photoId: args.photoId,
+      identityId: null,
+      suggestedIdentityId: null,
+      suggestedIdentityConfidence: null,
     });
   },
 });
 
-export const identityFace = mutationField("identifyFace", {
+export const identityFaceMutation = mutationField("identifyFace", {
   args: {
     faceId: intArg({ nullable: false }),
     identityId: intArg({ nullable: false }),
   },
   type: "Face",
   resolve: (parent, args, ctx) => {
-    return prisma.face.update({
-      where: {
-        id: args.faceId,
-      },
-      data: {
-        identity: {
-          connect: {
-            id: args.identityId,
-          },
-        },
-      },
-    });
+    return identifyFace(args.faceId, args.identityId);
   },
 });
 
-export const deleteFace = mutationField("deleteFace", {
+export const deleteFaceMutation = mutationField("deleteFace", {
   args: {
     faceId: intArg({ nullable: false }),
   },
   type: "Face",
   resolve: async (parent, args, ctx) => {
-    return prisma.face.delete({
-      where: {
-        id: args.faceId,
-      },
-    });
+    return deleteFace(args.faceId);
   },
 });

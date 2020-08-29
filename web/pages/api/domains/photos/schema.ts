@@ -1,6 +1,6 @@
 import { objectType, intArg, queryField, mutationField } from "@nexus/schema";
 import { PrismaClient } from "@prisma/client";
-import * as photoScanner from "../utils/photo-scanner";
+import { scanPhotos } from "./service";
 
 const prisma = new PrismaClient();
 
@@ -29,7 +29,7 @@ export const Photo = objectType({
   },
 });
 
-export const photo = queryField("photo", {
+export const photoQuery = queryField("photo", {
   type: "Photo",
   args: {
     photoId: intArg({ nullable: false }),
@@ -43,7 +43,7 @@ export const photo = queryField("photo", {
   },
 });
 
-export const photos = queryField("photos", {
+export const photosQuery = queryField("photos", {
   type: "Photo",
   list: true,
   args: {
@@ -68,10 +68,10 @@ export const photos = queryField("photos", {
   },
 });
 
-export const scanPhotos = mutationField("scanPhotos", {
+export const scanPhotosMutation = mutationField("scanPhotos", {
   type: "Boolean",
   resolve: async (parent, args, ctx) => {
-    await photoScanner.scanPhotos();
+    await scanPhotos();
     return true;
   },
 });

@@ -2,6 +2,7 @@ import { makeSchema } from "@nexus/schema";
 import { ApolloServer } from "apollo-server-micro";
 import path from "path";
 import * as allTypes from "./schema";
+import Listeners from "./listeners";
 
 export const schema = makeSchema({
   types: allTypes,
@@ -20,3 +21,5 @@ export const config = {
 export default new ApolloServer({ schema }).createHandler({
   path: "/api",
 });
+
+new Listeners().init();

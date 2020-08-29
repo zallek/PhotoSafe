@@ -6,7 +6,7 @@ By first identifying someone on a few photos, the AI is able to recognize this s
 Components:
 
 - web: Web App used to see your photos, tag people and search for someone
-- images: Nginx server used to host images in folder photos
+- photos: Nginx server used to host images in folder photos
 - postgres: Web Database
 - rabbit: Message broker used by services to communicate
 - face-detector [TODO]: AI service detecting faces on photos

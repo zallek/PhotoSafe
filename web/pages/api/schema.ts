@@ -3,6 +3,6 @@ import { GraphQLDate } from "graphql-iso-date";
 
 export const GQLDate = asNexusMethod(GraphQLDate, "date");
 
-export * from "./face";
-export * from "./identity";
-export * from "./photo";
+export * from "./domains/face/schema";
+export * from "./domains/indentity/schema";
+export * from "./domains/photos/schema";

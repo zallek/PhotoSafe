@@ -112,7 +112,6 @@ export interface NexusGenArgTypes {
       y: number; // Int!
     }
     createIdentity: { // args
-      faceId?: number | null; // Int
       name: string; // String!
     }
     deleteFace: { // args

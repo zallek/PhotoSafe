@@ -6,24 +6,26 @@ services:
     command: npm run dev
     environment:
       - DATABASE_URL=postgresql://web:password@postgres:5432/photosafe?schema=public
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - IMAGES_HOST=http://localhost:3001/photos
       - IMAGES_FOLDER=/usr/photos
     stdin_open: true
     ports:
-      - 3000:3000
+      - 3000:3000 # 3000 -> Web App
     volumes:
       - ./web:/usr/src/app:cached
       - ./photos:/usr/photos:cached
     depends_on:
-      - images
+      - photos
       - postgres
+      - rabbitmq
 
-  images:
+  photos:
     image: nginx
     volumes:
       - ./photos:/usr/share/nginx/html/photos:cached
     ports:
-      - 3001:80
+      - 3001:80 # 3001 -> Photos hoster
 
   postgres:
     image: postgres:11
@@ -32,4 +34,10 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=photosafe
     ports:
-      - 5432:5432
+      - 5432:5432 # 5432 -> Postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672 # 5672 -> Rabbit
+      - 15672:15672 # 15672 -> Rabbit UI
