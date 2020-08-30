@@ -1,5 +1,4 @@
 import { PrismaClient, Face } from "@prisma/client";
-import MessageBroker from "../../utils/MessageBroker";
 
 const prisma = new PrismaClient();
 

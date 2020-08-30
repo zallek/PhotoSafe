@@ -15,7 +15,6 @@ export async function faceQueuesSubscription(broker: MessageBroker) {
   await broker.subscribeJson<FaceDetectionSuccessPayload>(
     "FaceDetectionSuccess",
     (_, ack, json) => {
-      console.log("Message:", json);
       const { photoId, faces } = json;
       faces.forEach(({ x, y, w, h }) => {
         createFace({

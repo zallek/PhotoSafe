@@ -37,7 +37,7 @@ class MessageBroker {
 
   async sendJson(queue: string, msg: object) {
     await this.channel.assertQueue(queue, { durable: true });
-    this.channel.sendToQueue(queue, Buffer.from(msg));
+    this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(msg)));
   }
 
   async subscribe(queue: string, handler: MessageHandler) {

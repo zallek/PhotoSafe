@@ -20,6 +20,17 @@ services:
       - postgres
       - rabbitmq
 
+  workers:
+    build: ./workers
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - IMAGES_FOLDER=/usr/photos
+    volumes:
+      - ./workers:/usr/src/workers:cached
+      - ./photos:/usr/photos:cached
+    depends_on:
+      - rabbitmq
+
   photos:
     image: nginx
     volumes:

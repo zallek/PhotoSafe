@@ -8,9 +8,10 @@ Components:
 - web: Web App used to see your photos, tag people and search for someone
 - photos: Nginx server used to host images in folder photos
 - postgres: Web Database
-- rabbit: Message broker used by services to communicate
-- face-detector [TODO]: AI service detecting faces on photos
-- face-recognizer [TODO]: AI service learning from user-made identifications to recognize people at scale
+- rabbit: Message broker to communicate between web server and workers
+- workers:
+  - AI service detecting faces on photos
+  - [TODO] AI service learning from user-made identifications to recognize people at scale
 
 ## Start
 
