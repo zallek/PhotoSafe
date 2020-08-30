@@ -1,4 +1,4 @@
 .vscode/
-photos/
+photos/*
 
 !.gitkeep
